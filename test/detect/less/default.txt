@@ -1,0 +1,100 @@
+@import "lesshat";
+
+// variables
+@colorGreen: #008000;
+@colorGreenDark: darken(@colorGreen, 10);
+
+.container() {
+  max-width: 980px;
+}
+
+// mixins with parameters
+.button(@color:green) {
+  background-color: @color;
+}
+
+button {
+  .button(red);
+}
+
+div,
+.navbar,
+#header,
+input[type="input"] {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  width: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.row-12 > [class*="spans"] {
+    border-left: 1px solid #B5C583;
+}
+
+// nested definitions
+ul {
+  width: 100%;
+  padding: 0 5px;
+  li {
+    float: left; margin-right: 10px;
+    .home {
+        background: url('http://placehold.it/20') scroll no-repeat 0 0;
+    }
+  }
+}
+
+.banner {
+  &:extend(.container);
+}
+
+a {
+  color: @colorGreen;
+  &amp;:hover { color: @colorGreenDark; }
+  &amp;:visited { color: @c458cb; }
+}
+
+.loop(@counter) when (@counter > 0) {
+  .loop((@counter - 1));    // next iteration
+  width: (10px * @counter); // code for each iteration
+}
+
+div {
+  .loop(5); // launch the loop
+}
+
+.link {
+  & + & {
+    color: red;
+  }
+
+  & & {
+    color: green;
+  }
+
+  && {
+    color: blue;
+  }
+
+  &, &ish {
+    color: cyan;
+  }
+}
+
+.desktop-and-old-ie(@rules) {
+  @media screen and (min-width: 1200) { @rules(); }
+  html.lt-ie9 &                       { @rules(); }
+}
+
+header {
+  background-color: blue;
+
+  .desktop-and-old-ie({
+    background-color: red;
+  });
+}
+
+@mixin mobile {
+  @media screen and (max-width : 600px) {
+    @content;
+  }
+}
